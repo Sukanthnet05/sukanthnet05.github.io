@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>YourName | Tech Researcher · IoT · AI/ML · Open Source</title>
+<title>sukanth | Tech Researcher · IoT · AI/ML · Open Source</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
@@ -40,25 +40,7 @@
     font-family: var(--font-mono);
     font-size: 14px;
     line-height: 1.7;
-    cursor: none;
     overflow-x: hidden;
-  }
-
-  #cursor {
-    width: 10px; height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed; pointer-events: none; z-index: 99999;
-    transform: translate(-50%,-50%);
-    transition: width .15s, height .15s, background .15s;
-    box-shadow: 0 0 16px var(--accent);
-  }
-  #cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(0,212,255,0.4);
-    border-radius: 50%;
-    position: fixed; pointer-events: none; z-index: 99998;
-    transform: translate(-50%,-50%);
   }
 
   body::before {
@@ -180,7 +162,6 @@
     padding: 5px 14px;
     border: 1px solid;
     transition: all .2s;
-    cursor: none;
   }
   .tag-iot { border-color: var(--green); color: var(--green); }
   .tag-ai { border-color: var(--purple); color: var(--purple); }
@@ -198,7 +179,6 @@
     text-decoration: none;
     transition: all .2s;
     display: inline-flex; align-items: center; gap: 8px;
-    cursor: none;
   }
   .btn-primary { background: var(--accent); color: var(--bg); font-weight: 500; }
   .btn-primary:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,255,136,0.3); }
@@ -298,14 +278,14 @@
   .filter-btn {
     font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
     padding: 8px 20px; background: transparent;
-    border: 1px solid var(--border); color: var(--text3); cursor: none; transition: all .2s;
+    border: 1px solid var(--border); color: var(--text3); transition: all .2s;
   }
   .filter-btn.active, .filter-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
   .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
   .project-card {
     background: var(--surface); border: 1px solid var(--border);
-    padding: 32px; transition: all .25s; position: relative; overflow: hidden; cursor: none;
+    padding: 32px; transition: all .25s; position: relative; overflow: hidden;
   }
   .project-card::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
@@ -328,7 +308,7 @@
   .articles-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; }
   .article-featured {
     background: var(--surface); border: 1px solid var(--border); padding: 40px;
-    transition: border-color .2s; cursor: none;
+    transition: border-color .2s;
   }
   .article-featured:hover { border-color: var(--border2); }
   .article-featured-img {
@@ -359,7 +339,7 @@
   .articles-sidebar { display: flex; flex-direction: column; gap: 2px; }
   .article-mini {
     background: var(--surface); border: 1px solid var(--border); padding: 22px 26px;
-    transition: border-color .2s, transform .2s; cursor: none; flex: 1;
+    transition: border-color .2s, transform .2s; flex: 1;
   }
   .article-mini:hover { border-color: var(--border2); transform: translateX(4px); }
   .article-mini-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; letter-spacing: -0.3px; }
@@ -367,7 +347,7 @@
 
   #research { padding: 100px 48px; border-top: 1px solid var(--border); }
   .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-  .research-card { background: var(--surface); border: 1px solid var(--border); padding: 36px; transition: all .2s; cursor: none; }
+  .research-card { background: var(--surface); border: 1px solid var(--border); padding: 36px; transition: all .2s; }
   .research-card:hover { border-color: var(--purple); }
   .research-badge { display: inline-block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 12px; margin-bottom: 20px; border: 1px solid var(--purple); color: var(--purple); }
   .research-title { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.5px; }
@@ -383,7 +363,7 @@
 
   #videos { padding: 100px 48px; border-top: 1px solid var(--border); background: var(--bg2); }
   .videos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-  .video-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: all .25s; cursor: none; }
+  .video-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: all .25s; }
   .video-card:hover { border-color: var(--border2); transform: translateY(-4px); }
   .video-thumb { width: 100%; aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
   .video-thumb::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,212,255,0.06), rgba(176,96,255,0.06)); }
@@ -396,7 +376,7 @@
 
   #opensource { padding: 100px 48px; border-top: 1px solid var(--border); }
   .os-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-  .os-card { background: var(--surface); border: 1px solid var(--border); padding: 28px 32px; transition: all .2s; cursor: none; }
+  .os-card { background: var(--surface); border: 1px solid var(--border); padding: 28px 32px; transition: all .2s; }
   .os-card:hover { border-color: var(--orange); transform: translateY(-3px); }
   .os-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
   .os-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: -0.3px; }
@@ -409,7 +389,7 @@
   .collab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-bottom: 20px; }
   .collab-card {
     background: var(--surface); border: 1px solid var(--border); padding: 40px 36px;
-    transition: all .2s; cursor: none; position: relative; overflow: hidden;
+    transition: all .2s; position: relative; overflow: hidden;
   }
   .collab-card::before {
     content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
@@ -454,7 +434,7 @@
   .form-submit {
     background: var(--accent); color: var(--bg); border: none; padding: 16px;
     font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em;
-    text-transform: uppercase; font-weight: 500; cursor: none; transition: all .2s; margin-top: 4px;
+    text-transform: uppercase; font-weight: 500; transition: all .2s; margin-top: 4px;
   }
   .form-submit:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,255,136,0.25); }
 
@@ -507,13 +487,11 @@
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
 <div class="scroll-progress"><div class="scroll-bar" id="scrollBar"></div></div>
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">your<span>.</span>name</a>
+  <a href="#" class="nav-logo">sukanth</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -534,7 +512,7 @@
   <div class="fade-in">
     <div class="hero-tag">Open to Collaborations</div>
     <h1 class="hero-name">
-      Your Name
+      sukanth
       <span class="line2">Researcher.</span>
     </h1>
     <p class="hero-subtitle">
@@ -887,8 +865,8 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">your<span>.</span>name</div>
-  <div class="footer-copy">© 2025 Your Name. All rights reserved.</div>
+  <div class="footer-logo">sukanth</div>
+  <div class="footer-copy">© 2025 sukanth. All rights reserved.</div>
   <div class="footer-links">
     <a href="#hero">Top ↑</a>
     <a href="#projects">Projects</a>
@@ -898,24 +876,6 @@
 </footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  let mx=0, my=0, rx=0, ry=0;
-  document.addEventListener('mousemove', e => {
-    mx=e.clientX; my=e.clientY;
-    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
-  });
-  (function animRing() {
-    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(animRing);
-  })();
-  document.querySelectorAll('a,button').forEach(el => {
-    el.addEventListener('mouseenter',()=>{ cursor.style.width='20px'; cursor.style.height='20px'; cursor.style.background='var(--green)'; });
-    el.addEventListener('mouseleave',()=>{ cursor.style.width='10px'; cursor.style.height='10px'; cursor.style.background='var(--accent)'; });
-  });
-
   // Scroll progress
   window.addEventListener('scroll', () => {
     document.getElementById('scrollBar').style.width =
