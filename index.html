@@ -1,1152 +1,957 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Personal tech website — IoT projects, AI/ML research, open source contributions, articles, research papers, videos, and collaboration opportunities.">
-  <meta name="keywords" content="IoT, AI, ML, Open Source, Research, Technology, Articles, Embedded Systems">
-  <meta name="author" content="Tony">
-  <title>Tony | Tech Explorer — IoT, AI/ML & Open Source</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>YourName | Tech Researcher · IoT · AI/ML · Open Source</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --surface: #141b24;
+    --surface2: #1a2535;
+    --border: #1e2d3d;
+    --border2: #243344;
+    --text: #e8edf2;
+    --text2: #8a9bb0;
+    --text3: #4a5f75;
+    --accent: #00d4ff;
+    --accent2: #0099cc;
+    --green: #00ff88;
+    --orange: #ff6b35;
+    --purple: #b060ff;
+    --yellow: #ffd700;
+    --red: #ff3366;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-serif: 'Fraunces', serif;
+  }
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css">
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.7;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  #cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 99999;
+    transform: translate(-50%,-50%);
+    transition: width .15s, height .15s, background .15s;
+    box-shadow: 0 0 16px var(--accent);
+  }
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,212,255,0.4);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 99998;
+    transform: translate(-50%,-50%);
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: .5;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(8,12,16,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 800;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color .2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--accent);
+    transform: scaleX(0); transition: transform .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta {
+    background: var(--accent) !important; color: var(--bg) !important;
+    padding: 8px 20px !important; font-weight: 500;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--green) !important; }
+
+  section { position: relative; z-index: 2; }
+
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 100px 48px 80px;
+    gap: 60px;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%);
+    top: 50%; left: 65%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; color: var(--green);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+
+  h1.hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 5.5vw, 82px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+  h1.hero-name .line2 { color: var(--accent); display: block; }
+
+  .hero-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--text2);
+    margin: 20px 0 36px;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.65;
+  }
+
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 44px; }
+  .tag {
+    font-size: 11px; font-family: var(--font-mono);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 14px;
+    border: 1px solid;
+    transition: all .2s;
+    cursor: none;
+  }
+  .tag-iot { border-color: var(--green); color: var(--green); }
+  .tag-ai { border-color: var(--purple); color: var(--purple); }
+  .tag-os { border-color: var(--orange); color: var(--orange); }
+  .tag-ml { border-color: var(--accent); color: var(--accent); }
+  .tag-research { border-color: var(--yellow); color: var(--yellow); }
+  .tag:hover { background: currentColor; color: var(--bg); }
+
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    transition: all .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    cursor: none;
+  }
+  .btn-primary { background: var(--accent); color: var(--bg); font-weight: 500; }
+  .btn-primary:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,255,136,0.3); }
+  .btn-outline { border: 1px solid var(--border2); color: var(--text2); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats { display: grid; grid-template-rows: repeat(4, 1fr); gap: 2px; }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+    transition: border-color .2s, transform .2s;
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: scaleX(0); transition: transform .4s;
+  }
+  .stat-card:hover { border-color: var(--border2); transform: translateX(-4px); }
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-num { font-family: var(--font-display); font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 48px; }
+  .section-num { font-family: var(--font-mono); font-size: 11px; color: var(--text3); letter-spacing: 0.15em; }
+  .section-title { font-family: var(--font-display); font-size: clamp(26px, 3.2vw, 42px); font-weight: 800; letter-spacing: -1px; }
+  .section-title span { color: var(--accent); }
+  .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+  #about {
+    padding: 100px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    align-items: start;
+    border-top: 1px solid var(--border);
+  }
+  .about-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 16px; color: var(--text3);
+    position: relative; overflow: hidden;
+  }
+  .about-photo-placeholder::after {
+    content: 'YOUR PHOTO';
+    font-family: var(--font-display);
+    font-size: 12px; font-weight: 700;
+    color: var(--text3); letter-spacing: 0.2em;
+  }
+  .photo-frame { position: relative; }
+  .photo-corner {
+    position: absolute; width: 20px; height: 20px;
+    border-color: var(--accent); border-style: solid;
+  }
+  .photo-corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .photo-corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .photo-corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .photo-corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .about-bio {
+    font-family: var(--font-serif);
+    font-size: 16px; color: var(--text2);
+    line-height: 1.8; margin-bottom: 28px; font-weight: 300;
+  }
+  .about-bio strong { color: var(--text); font-weight: 600; font-style: normal; font-family: var(--font-display); }
+
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 36px; }
+  .skill-item {
+    background: var(--surface); padding: 16px 20px;
+    border: 1px solid var(--border); transition: border-color .2s;
+  }
+  .skill-item:hover { border-color: var(--accent); }
+  .skill-name { font-size: 12px; color: var(--text); margin-bottom: 8px; font-family: var(--font-display); font-weight: 600; }
+  .skill-bar { height: 2px; background: var(--border); }
+  .skill-fill { height: 100%; background: var(--accent); }
+
+  .socials-row { display: flex; flex-direction: column; gap: 2px; margin-top: 20px; }
+  .social-link {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 20px;
+    background: var(--surface); border: 1px solid var(--border);
+    text-decoration: none; color: var(--text);
+    transition: all .2s;
+  }
+  .social-link:hover { border-color: var(--accent); transform: translateX(6px); }
+  .social-link-icon { font-size: 16px; width: 32px; text-align: center; }
+  .social-link-label { font-family: var(--font-display); font-size: 13px; font-weight: 700; }
+  .social-link-val { font-size: 11px; color: var(--text3); }
+
+  #projects { padding: 100px 48px; border-top: 1px solid var(--border); }
+  .projects-filter { display: flex; gap: 4px; margin-bottom: 48px; flex-wrap: wrap; }
+  .filter-btn {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 8px 20px; background: transparent;
+    border: 1px solid var(--border); color: var(--text3); cursor: none; transition: all .2s;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 32px; transition: all .25s; position: relative; overflow: hidden; cursor: none;
+  }
+  .project-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s;
+  }
+  .project-card:hover { background: var(--bg3); border-color: var(--border2); transform: translateY(-4px); }
+  .project-card:hover::after { transform: scaleX(1); }
+  .project-type { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .project-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .project-title { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.5px; }
+  .project-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 24px; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .stack-chip { font-size: 10px; letter-spacing: 0.08em; padding: 3px 10px; background: var(--bg); border: 1px solid var(--border); color: var(--text3); transition: border-color .2s; }
+  .project-card:hover .stack-chip { border-color: var(--border2); color: var(--text2); }
+  .project-links { display: flex; gap: 12px; }
+  .project-link { font-size: 11px; color: var(--text3); text-decoration: none; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+  .project-link:hover { color: var(--accent); }
+
+  #articles { padding: 100px 48px; border-top: 1px solid var(--border); background: var(--bg2); }
+  .articles-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2px; }
+  .article-featured {
+    background: var(--surface); border: 1px solid var(--border); padding: 40px;
+    transition: border-color .2s; cursor: none;
+  }
+  .article-featured:hover { border-color: var(--border2); }
+  .article-featured-img {
+    width: 100%; height: 200px;
+    background: linear-gradient(135deg, var(--bg3), var(--surface2));
+    margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text3); font-size: 12px; letter-spacing: 0.1em;
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+  }
+  .article-featured-img::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(45deg, rgba(0,212,255,0.05), rgba(176,96,255,0.05));
+  }
+  .article-meta {
+    display: flex; gap: 12px; align-items: center;
+    font-size: 11px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .article-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text3); }
+  .article-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 14px; line-height: 1.2; }
+  .article-excerpt { font-family: var(--font-serif); font-size: 15px; font-weight: 300; color: var(--text2); line-height: 1.7; margin-bottom: 24px; }
+  .read-more {
+    font-size: 11px; color: var(--accent); text-decoration: none;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px; transition: gap .2s;
+  }
+  .read-more:hover { gap: 14px; }
+  .articles-sidebar { display: flex; flex-direction: column; gap: 2px; }
+  .article-mini {
+    background: var(--surface); border: 1px solid var(--border); padding: 22px 26px;
+    transition: border-color .2s, transform .2s; cursor: none; flex: 1;
+  }
+  .article-mini:hover { border-color: var(--border2); transform: translateX(4px); }
+  .article-mini-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; letter-spacing: -0.3px; }
+  .article-mini-meta { font-size: 11px; color: var(--text3); }
+
+  #research { padding: 100px 48px; border-top: 1px solid var(--border); }
+  .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+  .research-card { background: var(--surface); border: 1px solid var(--border); padding: 36px; transition: all .2s; cursor: none; }
+  .research-card:hover { border-color: var(--purple); }
+  .research-badge { display: inline-block; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 12px; margin-bottom: 20px; border: 1px solid var(--purple); color: var(--purple); }
+  .research-title { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; letter-spacing: -0.5px; }
+  .research-abstract { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 24px; }
+  .research-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+  .research-tag { font-size: 10px; padding: 3px 10px; border: 1px solid var(--border); color: var(--text3); }
+  .research-links { display: flex; gap: 16px; }
+  .research-link { font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; letter-spacing: 0.08em; transition: opacity .2s; }
+  .research-link:hover { opacity: 0.7; }
+  .research-link.pdf { color: var(--red); }
+  .research-link.code { color: var(--accent); }
+  .research-link.ext { color: var(--text3); }
+
+  #videos { padding: 100px 48px; border-top: 1px solid var(--border); background: var(--bg2); }
+  .videos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .video-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; transition: all .25s; cursor: none; }
+  .video-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+  .video-thumb { width: 100%; aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .video-thumb::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,212,255,0.06), rgba(176,96,255,0.06)); }
+  .play-btn { width: 52px; height: 52px; border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all .2s; position: relative; z-index: 1; }
+  .play-btn svg { margin-left: 4px; }
+  .video-card:hover .play-btn { background: var(--accent); border-color: var(--accent); transform: scale(1.1); }
+  .video-info { padding: 18px 22px; }
+  .video-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; letter-spacing: -0.3px; }
+  .video-meta { font-size: 11px; color: var(--text3); }
+
+  #opensource { padding: 100px 48px; border-top: 1px solid var(--border); }
+  .os-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .os-card { background: var(--surface); border: 1px solid var(--border); padding: 28px 32px; transition: all .2s; cursor: none; }
+  .os-card:hover { border-color: var(--orange); transform: translateY(-3px); }
+  .os-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .os-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: -0.3px; }
+  .os-stars { font-size: 11px; color: var(--yellow); display: flex; align-items: center; gap: 4px; }
+  .os-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 18px; }
+  .os-lang { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3); }
+  .lang-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  #collaborate { padding: 100px 48px; border-top: 1px solid var(--border); background: var(--bg2); }
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin-bottom: 20px; }
+  .collab-card {
+    background: var(--surface); border: 1px solid var(--border); padding: 40px 36px;
+    transition: all .2s; cursor: none; position: relative; overflow: hidden;
+  }
+  .collab-card::before {
+    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+    background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform .3s;
+  }
+  .collab-card:hover { border-color: var(--border2); }
+  .collab-card:hover::before { transform: scaleY(1); }
+  .collab-icon { font-size: 32px; margin-bottom: 20px; }
+  .collab-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .collab-desc { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 24px; }
+  .collab-price { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+  .collab-price span { font-size: 13px; color: var(--text3); font-family: var(--font-mono); font-weight: 400; }
+
+  #contact { padding: 100px 48px; border-top: 1px solid var(--border); }
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .contact-info h2 { font-family: var(--font-display); font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1.0; margin-bottom: 20px; }
+  .contact-info h2 span { color: var(--accent); display: block; }
+  .contact-info p { font-family: var(--font-serif); font-size: 16px; font-weight: 300; color: var(--text2); line-height: 1.7; margin-bottom: 40px; }
+  .contact-links-list { display: flex; flex-direction: column; gap: 2px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 20px;
+    padding: 18px 22px;
+    background: var(--surface); border: 1px solid var(--border);
+    text-decoration: none; color: var(--text); transition: all .2s;
+  }
+  .contact-link:hover { border-color: var(--accent); transform: translateX(6px); }
+  .contact-link-icon { font-size: 18px; width: 36px; text-align: center; flex-shrink: 0; }
+  .contact-link-label { font-family: var(--font-display); font-size: 13px; font-weight: 700; }
+  .contact-link-value { font-size: 11px; color: var(--text3); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 2px; }
+  .form-group { display: flex; flex-direction: column; }
+  .form-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+  .form-input, .form-select, .form-textarea {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    font-family: var(--font-mono); font-size: 13px; padding: 13px 17px; outline: none;
+    transition: border-color .2s; resize: none; appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+  .form-textarea { min-height: 130px; }
+  .form-submit {
+    background: var(--accent); color: var(--bg); border: none; padding: 16px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 500; cursor: none; transition: all .2s; margin-top: 4px;
+  }
+  .form-submit:hover { background: var(--green); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,255,136,0.25); }
+
+  .ticker-wrap { overflow: hidden; background: var(--accent); color: var(--bg); padding: 10px 0; position: relative; z-index: 2; }
+  .ticker-content {
+    display: flex; gap: 60px;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+  }
+  @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+  .ticker-sep { color: rgba(0,0,0,0.4); }
+
+  .scroll-progress { position: fixed; top: 64px; left: 0; right: 0; z-index: 999; height: 2px; background: var(--border); }
+  .scroll-bar { height: 100%; background: var(--accent); width: 0%; }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 36px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg); position: relative; z-index: 2;
+  }
+  .footer-logo { font-family: var(--font-display); font-size: 15px; font-weight: 800; color: var(--text2); }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 11px; color: var(--text3); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 11px; color: var(--text3); text-decoration: none; transition: color .2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1024px) {
+    #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-stats { grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(2,1fr); }
+    .projects-grid, .videos-grid, .os-grid { grid-template-columns: 1fr 1fr; }
+    .collab-grid { grid-template-columns: 1fr 1fr; }
+    #about { grid-template-columns: 1fr; }
+    .research-grid { grid-template-columns: 1fr; }
+    .articles-layout { grid-template-columns: 1fr; }
+    .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .projects-grid, .videos-grid, .os-grid, .collab-grid { grid-template-columns: 1fr; }
+    #hero, #about, #projects, #articles, #research, #videos, #opensource, #collaborate, #contact { padding-left: 20px; padding-right: 20px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- Background Orbs -->
-  <div class="bg-orbs">
-    <div class="orb"></div>
-    <div class="orb"></div>
-    <div class="orb"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="scroll-progress"><div class="scroll-bar" id="scrollBar"></div></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">your<span>.</span>name</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#opensource">Open Source</a></li>
+    <li><a href="#collaborate">Collaborate</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="fade-in">
+    <div class="hero-tag">Open to Collaborations</div>
+    <h1 class="hero-name">
+      Your Name
+      <span class="line2">Researcher.</span>
+    </h1>
+    <p class="hero-subtitle">
+      I build at the intersection of IoT, Artificial Intelligence, and real-world systems — then write and talk about what I discover.
+    </p>
+    <div class="hero-tags">
+      <span class="tag tag-iot">IoT</span>
+      <span class="tag tag-ai">Artificial Intelligence</span>
+      <span class="tag tag-ml">Machine Learning</span>
+      <span class="tag tag-os">Open Source</span>
+      <span class="tag tag-research">Research</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+        View My Work
+      </a>
+      <a href="#contact" class="btn btn-outline">Get In Touch →</a>
+    </div>
   </div>
 
-  <!-- ===========================
-       NAVIGATION
-       =========================== -->
-  <nav class="navbar" id="navbar">
-    <div class="container">
-      <a href="#hero" class="nav-logo"><span>&lt;</span>Tony<span>/&gt;</span></a>
-
-      <div class="nav-links" id="nav-links">
-        <a href="#about">About</a>
-        <a href="#iot-projects">IoT</a>
-        <a href="#ai-research">AI/ML</a>
-        <a href="#opensource">Open Source</a>
-        <a href="#articles">Articles</a>
-        <a href="#papers">Papers</a>
-        <a href="#videos">Videos</a>
-        <a href="#collaborations">Collabs</a>
-        <a href="#contact" class="nav-cta">Contact</a>
-      </div>
-
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+  <div class="hero-stats fade-in" style="transition-delay:.15s">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">24+</div>
+      <div class="stat-label">IoT Projects Deployed</div>
     </div>
-  </nav>
-
-  <!-- ===========================
-       HERO SECTION
-       =========================== -->
-  <section id="hero" class="section">
-    <div class="hero-grid-pattern"></div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge fade-in">
-          <span class="dot"></span>
-          Available for collaborations
-        </div>
-
-        <h1 class="hero-title fade-in">
-          Hi, I'm <span class="highlight">Tony</span><br>
-          Building the Future<br>
-          with Technology
-        </h1>
-
-        <div class="hero-typing fade-in">
-          <span id="typing-text"></span><span class="cursor"></span>
-        </div>
-
-        <p class="hero-description fade-in">
-          Exploring the intersection of IoT, AI/ML, and open source.
-          I build smart devices, publish research, write articles,
-          and contribute to the developer community.
-        </p>
-
-        <div class="hero-actions fade-in">
-          <a href="#iot-projects" class="btn btn-primary">
-            Explore My Work →
-          </a>
-          <a href="#contact" class="btn btn-secondary">
-            Let's Collaborate
-          </a>
-        </div>
-
-        <div class="hero-stats fade-in">
-          <div class="hero-stat">
-            <div class="number" data-count="25" data-suffix="+">0</div>
-            <div class="label">Projects Built</div>
-          </div>
-          <div class="hero-stat">
-            <div class="number" data-count="12" data-suffix="+">0</div>
-            <div class="label">Research Papers</div>
-          </div>
-          <div class="hero-stat">
-            <div class="number" data-count="40" data-suffix="+">0</div>
-            <div class="label">Articles Written</div>
-          </div>
-          <div class="hero-stat">
-            <div class="number" data-count="500" data-suffix="+">0</div>
-            <div class="label">GitHub Stars</div>
-          </div>
-        </div>
-      </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--purple)">12</div>
+      <div class="stat-label">Research Papers</div>
     </div>
-  </section>
-
-  <!-- ===========================
-       ABOUT SECTION
-       =========================== -->
-  <section id="about" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">About Me</div>
-        <h2 class="section-title fade-in">Passionate About Technology</h2>
-        <p class="section-subtitle fade-in">Engineer, researcher, and creator passionate about pushing the boundaries of what's possible.</p>
-      </div>
-
-      <div class="about-grid">
-        <div class="about-image-wrapper fade-in-left">
-          <div class="about-image">👨‍💻</div>
-          <div class="about-image-glow"></div>
-        </div>
-
-        <div class="about-text fade-in-right">
-          <h3>Engineer. Researcher. Creator.</h3>
-          <p>
-            I'm a technology enthusiast with deep expertise in IoT systems, 
-            artificial intelligence, and machine learning. My journey spans from 
-            building embedded systems and smart devices to publishing research papers 
-            and contributing to open source projects.
-          </p>
-          <p>
-            Through my articles and videos, I share my perspective on the latest 
-            tech developments, break down complex concepts, and document my hands-on 
-            experiments with cutting-edge technologies. I believe in learning by building 
-            and sharing knowledge with the community.
-          </p>
-
-          <div class="tech-stack">
-            <span class="tech-badge">🐍 Python</span>
-            <span class="tech-badge">⚡ Arduino</span>
-            <span class="tech-badge">🔧 Raspberry Pi</span>
-            <span class="tech-badge">🧠 TensorFlow</span>
-            <span class="tech-badge">🤖 PyTorch</span>
-            <span class="tech-badge">☁️ AWS IoT</span>
-            <span class="tech-badge">🐳 Docker</span>
-            <span class="tech-badge">📡 MQTT</span>
-            <span class="tech-badge">🌐 Node.js</span>
-            <span class="tech-badge">📊 Pandas</span>
-            <span class="tech-badge">🔬 OpenCV</span>
-            <span class="tech-badge">⚙️ C/C++</span>
-            <span class="tech-badge">🐧 Linux</span>
-            <span class="tech-badge">🔗 ESP32</span>
-          </div>
-        </div>
-      </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--orange)">3.2k</div>
+      <div class="stat-label">GitHub Stars</div>
     </div>
-  </section>
-
-  <!-- ===========================
-       IoT PROJECTS SECTION
-       =========================== -->
-  <section id="iot-projects" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">IoT Projects</div>
-        <h2 class="section-title fade-in">Building Smart Things</h2>
-        <p class="section-subtitle fade-in">Hardware meets software — from sensor networks to intelligent automation systems.</p>
-      </div>
-
-      <div class="filter-tabs fade-in">
-        <button class="filter-tab active" data-filter="all">All Projects</button>
-        <button class="filter-tab" data-filter="home-automation">Home Automation</button>
-        <button class="filter-tab" data-filter="sensor-networks">Sensor Networks</button>
-        <button class="filter-tab" data-filter="wearables">Wearables</button>
-        <button class="filter-tab" data-filter="industrial">Industrial IoT</button>
-      </div>
-
-      <div class="card-grid">
-        <!-- Project 1 -->
-        <div class="card project-card fade-in scale-in stagger-1" data-category="home-automation">
-          <div class="project-image">🏠</div>
-          <div class="card-header">
-            <h3 class="card-title">Smart Home Hub v2.0</h3>
-            <span class="status-badge active">Active</span>
-          </div>
-          <p class="card-description">A custom-built home automation hub using Raspberry Pi 4 with MQTT broker, supporting 50+ Zigbee and Z-Wave devices with voice control integration.</p>
-          <div class="card-tags">
-            <span class="tag">Raspberry Pi</span>
-            <span class="tag purple">MQTT</span>
-            <span class="tag blue">Zigbee</span>
-            <span class="tag">Python</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">View on GitHub →</a>
-            <span class="repo-stat">⭐ 128</span>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="card project-card fade-in scale-in stagger-2" data-category="sensor-networks">
-          <div class="project-image">🌡️</div>
-          <div class="card-header">
-            <h3 class="card-title">Environmental Monitor Mesh</h3>
-            <span class="status-badge active">Active</span>
-          </div>
-          <p class="card-description">Distributed sensor network using ESP32 mesh topology for real-time environmental monitoring — temperature, humidity, air quality, and noise levels.</p>
-          <div class="card-tags">
-            <span class="tag">ESP32</span>
-            <span class="tag purple">LoRa</span>
-            <span class="tag blue">AWS IoT</span>
-            <span class="tag orange">Grafana</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">View on GitHub →</a>
-            <span class="repo-stat">⭐ 89</span>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="card project-card fade-in scale-in stagger-3" data-category="wearables">
-          <div class="project-image">⌚</div>
-          <div class="card-header">
-            <h3 class="card-title">Health Monitor Wearable</h3>
-            <span class="status-badge wip">In Progress</span>
-          </div>
-          <p class="card-description">Custom wearable device with heart rate, SpO2, and activity tracking. Uses nRF52840 with BLE for low-power data sync to a companion mobile app.</p>
-          <div class="card-tags">
-            <span class="tag">nRF52840</span>
-            <span class="tag purple">BLE</span>
-            <span class="tag blue">React Native</span>
-            <span class="tag">C++</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">View on GitHub →</a>
-            <span class="repo-stat">⭐ 56</span>
-          </div>
-        </div>
-
-        <!-- Project 4 -->
-        <div class="card project-card fade-in scale-in stagger-4" data-category="industrial">
-          <div class="project-image">🏭</div>
-          <div class="card-header">
-            <h3 class="card-title">Predictive Maintenance System</h3>
-            <span class="status-badge completed">Completed</span>
-          </div>
-          <p class="card-description">Industrial IoT solution using vibration sensors and ML models to predict equipment failures before they happen, reducing downtime by 40%.</p>
-          <div class="card-tags">
-            <span class="tag">Vibration Sensors</span>
-            <span class="tag purple">TensorFlow Lite</span>
-            <span class="tag blue">Edge AI</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">View on GitHub →</a>
-            <span class="repo-stat">⭐ 214</span>
-          </div>
-        </div>
-
-        <!-- Project 5 -->
-        <div class="card project-card fade-in scale-in stagger-5" data-category="home-automation">
-          <div class="project-image">💡</div>
-          <div class="card-header">
-            <h3 class="card-title">AI-Powered Energy Optimizer</h3>
-            <span class="status-badge active">Active</span>
-          </div>
-          <p class="card-description">Machine learning system that optimizes home energy consumption by analyzing usage patterns and controlling smart devices autonomously.</p>
-          <div class="card-tags">
-            <span class="tag">Python</span>
-            <span class="tag purple">scikit-learn</span>
-            <span class="tag blue">Home Assistant</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">View on GitHub →</a>
-            <span class="repo-stat">⭐ 73</span>
-          </div>
-        </div>
-
-        <!-- Project 6 -->
-        <div class="card project-card fade-in scale-in stagger-6" data-category="sensor-networks">
-          <div class="project-image">🌾</div>
-          <div class="card-header">
-            <h3 class="card-title">Smart Agriculture System</h3>
-            <span class="status-badge completed">Completed</span>
-          </div>
-          <p class="card-description">Automated irrigation and crop monitoring system using soil moisture sensors, weather API integration, and solar-powered nodes.</p>
-          <div class="card-tags">
-            <span class="tag">Arduino</span>
-            <span class="tag purple">Solar Power</span>
-            <span class="tag blue">REST API</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">View on GitHub →</a>
-            <span class="repo-stat">⭐ 95</span>
-          </div>
-        </div>
-      </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--accent)">140+</div>
+      <div class="stat-label">Articles & Tutorials</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===========================
-       AI/ML RESEARCH SECTION
-       =========================== -->
-  <section id="ai-research" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">AI/ML Research</div>
-        <h2 class="section-title fade-in">Advancing Intelligence</h2>
-        <p class="section-subtitle fade-in">Research work at the intersection of machine learning, computer vision, and edge computing.</p>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-content">
+    <span>IoT Systems</span><span class="ticker-sep">◆</span><span>Edge AI</span><span class="ticker-sep">◆</span><span>MQTT &amp; LoRaWAN</span><span class="ticker-sep">◆</span><span>Neural Networks</span><span class="ticker-sep">◆</span><span>Embedded ML</span><span class="ticker-sep">◆</span><span>Open Source Contributor</span><span class="ticker-sep">◆</span><span>Tech Writer</span><span class="ticker-sep">◆</span><span>TensorFlow · PyTorch</span><span class="ticker-sep">◆</span><span>Raspberry Pi · Arduino</span><span class="ticker-sep">◆</span><span>Cloud Architecture</span><span class="ticker-sep">◆</span>
+    <span>IoT Systems</span><span class="ticker-sep">◆</span><span>Edge AI</span><span class="ticker-sep">◆</span><span>MQTT &amp; LoRaWAN</span><span class="ticker-sep">◆</span><span>Neural Networks</span><span class="ticker-sep">◆</span><span>Embedded ML</span><span class="ticker-sep">◆</span><span>Open Source Contributor</span><span class="ticker-sep">◆</span><span>Tech Writer</span><span class="ticker-sep">◆</span><span>TensorFlow · PyTorch</span><span class="ticker-sep">◆</span><span>Raspberry Pi · Arduino</span><span class="ticker-sep">◆</span><span>Cloud Architecture</span><span class="ticker-sep">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About <span>Me</span></h2>
+    </div>
+    <div class="photo-frame">
+      <div class="about-photo-placeholder">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:.25"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
+      <div class="photo-corner photo-corner-tl"></div>
+      <div class="photo-corner photo-corner-tr"></div>
+      <div class="photo-corner photo-corner-bl"></div>
+      <div class="photo-corner photo-corner-br"></div>
+    </div>
+    <div class="socials-row">
+      <a href="https://github.com" target="_blank" class="social-link">
+        <span class="social-link-icon">⌥</span>
+        <div><div class="social-link-label">GitHub</div><div class="social-link-val">@yourusername</div></div>
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="social-link">
+        <span class="social-link-icon">in</span>
+        <div><div class="social-link-label">LinkedIn</div><div class="social-link-val">/in/yourname</div></div>
+      </a>
+      <a href="https://twitter.com" target="_blank" class="social-link">
+        <span class="social-link-icon">𝕏</span>
+        <div><div class="social-link-label">Twitter / X</div><div class="social-link-val">@yourusername</div></div>
+      </a>
+    </div>
+  </div>
 
-      <div class="card-grid">
-        <!-- Research 1 -->
-        <div class="card fade-in scale-in stagger-1">
-          <div class="card-icon">🧠</div>
-          <h3 class="card-title">Edge-Optimized Object Detection</h3>
-          <p class="card-description">Novel lightweight CNN architecture for real-time object detection on resource-constrained edge devices with 3x speed improvement.</p>
-          <div class="research-metrics">
-            <div class="metric">
-              <div class="value">94.2%</div>
-              <div class="metric-label">Accuracy</div>
-            </div>
-            <div class="metric">
-              <div class="value">30fps</div>
-              <div class="metric-label">Speed</div>
-            </div>
-            <div class="metric">
-              <div class="value">2.1MB</div>
-              <div class="metric-label">Model Size</div>
-            </div>
-          </div>
-          <div class="card-tags">
-            <span class="tag">Computer Vision</span>
-            <span class="tag purple">Edge AI</span>
-            <span class="tag blue">TensorFlow Lite</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Paper →</a>
-            <a href="#" class="card-link">GitHub ↗</a>
-          </div>
-        </div>
+  <div class="fade-in" style="transition-delay:.15s">
+    <div class="section-header">
+      <span class="section-num" style="opacity:0">01</span>
+      <h2 class="section-title">Who I <span>Am</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="about-bio">
+      I'm a <strong>researcher and builder</strong> passionate about connecting the physical world with intelligent systems.
+      My work spans <strong>IoT infrastructure</strong>, <strong>edge AI deployments</strong>, and applied machine learning —
+      with a special interest in making complex systems legible through writing, open source tools, and real hardware experiments.
+    </p>
+    <p class="about-bio">
+      I share my perspective through <strong>articles, research papers, and video content</strong> — always grounded in what I've actually built and broken. Based in <strong>Hyderabad, India</strong>.
+    </p>
+    <div class="skills-grid">
+      <div class="skill-item"><div class="skill-name">IoT / Embedded Systems</div><div class="skill-bar"><div class="skill-fill" style="width:92%; background:var(--green)"></div></div></div>
+      <div class="skill-item"><div class="skill-name">Machine Learning</div><div class="skill-bar"><div class="skill-fill" style="width:88%; background:var(--purple)"></div></div></div>
+      <div class="skill-item"><div class="skill-name">Python / C++</div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><div class="skill-name">Cloud / DevOps</div><div class="skill-bar"><div class="skill-fill" style="width:75%; background:var(--orange)"></div></div></div>
+      <div class="skill-item"><div class="skill-name">Technical Writing</div><div class="skill-bar"><div class="skill-fill" style="width:95%; background:var(--yellow)"></div></div></div>
+      <div class="skill-item"><div class="skill-name">Research / Papers</div><div class="skill-bar"><div class="skill-fill" style="width:82%; background:var(--red)"></div></div></div>
+    </div>
+  </div>
+</section>
 
-        <!-- Research 2 -->
-        <div class="card fade-in scale-in stagger-2">
-          <div class="card-icon">📊</div>
-          <h3 class="card-title">Federated Learning for IoT</h3>
-          <p class="card-description">Privacy-preserving ML framework enabling IoT device networks to collaboratively train models without sharing raw data.</p>
-          <div class="research-metrics">
-            <div class="metric">
-              <div class="value">89.7%</div>
-              <div class="metric-label">F1-Score</div>
-            </div>
-            <div class="metric">
-              <div class="value">60%</div>
-              <div class="metric-label">Comm. Saved</div>
-            </div>
-            <div class="metric">
-              <div class="value">100+</div>
-              <div class="metric-label">Devices</div>
-            </div>
-          </div>
-          <div class="card-tags">
-            <span class="tag">Federated Learning</span>
-            <span class="tag purple">Privacy</span>
-            <span class="tag blue">PyTorch</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Paper →</a>
-            <a href="#" class="card-link">GitHub ↗</a>
-          </div>
-        </div>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header fade-in">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Featured <span>Projects</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-filter fade-in">
+    <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
+    <button class="filter-btn" onclick="filterProjects('iot',this)">IoT</button>
+    <button class="filter-btn" onclick="filterProjects('ai',this)">AI / ML</button>
+    <button class="filter-btn" onclick="filterProjects('research',this)">Research</button>
+    <button class="filter-btn" onclick="filterProjects('os',this)">Open Source</button>
+  </div>
+  <div class="projects-grid" id="projectsGrid">
 
-        <!-- Research 3 -->
-        <div class="card fade-in scale-in stagger-3">
-          <div class="card-icon">🔮</div>
-          <h3 class="card-title">Anomaly Detection in Sensor Data</h3>
-          <p class="card-description">Transformer-based architecture for detecting anomalies in multivariate time-series sensor data with unsupervised learning.</p>
-          <div class="research-metrics">
-            <div class="metric">
-              <div class="value">96.8%</div>
-              <div class="metric-label">AUC-ROC</div>
-            </div>
-            <div class="metric">
-              <div class="value">5ms</div>
-              <div class="metric-label">Latency</div>
-            </div>
-            <div class="metric">
-              <div class="value">12</div>
-              <div class="metric-label">Datasets</div>
-            </div>
-          </div>
-          <div class="card-tags">
-            <span class="tag">Transformers</span>
-            <span class="tag purple">Time Series</span>
-            <span class="tag blue">Anomaly Detection</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Paper →</a>
-            <a href="#" class="card-link">GitHub ↗</a>
-          </div>
-        </div>
+    <div class="project-card fade-in" data-cat="iot">
+      <div class="project-type" style="color:var(--green)"><div class="project-dot" style="background:var(--green)"></div> IoT Project</div>
+      <div class="project-title">Smart Agriculture Monitoring System</div>
+      <div class="project-desc">End-to-end IoT pipeline using soil sensors, LoRaWAN gateways, and MQTT delivering real-time crop health dashboards with ML anomaly detection.</div>
+      <div class="project-stack"><span class="stack-chip">Raspberry Pi</span><span class="stack-chip">LoRaWAN</span><span class="stack-chip">MQTT</span><span class="stack-chip">Node-RED</span><span class="stack-chip">InfluxDB</span></div>
+      <div class="project-links"><a href="#" class="project-link">⌥ GitHub →</a><a href="#" class="project-link">↗ Live Demo</a></div>
+    </div>
 
-        <!-- Research 4 -->
-        <div class="card fade-in scale-in stagger-4">
-          <div class="card-icon">🗣️</div>
-          <h3 class="card-title">NLP for IoT Command Parsing</h3>
-          <p class="card-description">Fine-tuned language model for understanding natural language commands in smart home environments with multi-device context.</p>
-          <div class="research-metrics">
-            <div class="metric">
-              <div class="value">97.1%</div>
-              <div class="metric-label">Intent Acc.</div>
-            </div>
-            <div class="metric">
-              <div class="value">93.4%</div>
-              <div class="metric-label">Slot F1</div>
-            </div>
-            <div class="metric">
-              <div class="value">50ms</div>
-              <div class="metric-label">Response</div>
-            </div>
-          </div>
-          <div class="card-tags">
-            <span class="tag">NLP</span>
-            <span class="tag purple">BERT</span>
-            <span class="tag blue">Smart Home</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Paper →</a>
-            <a href="#" class="card-link">GitHub ↗</a>
-          </div>
-        </div>
+    <div class="project-card fade-in" data-cat="ai" style="transition-delay:.08s">
+      <div class="project-type" style="color:var(--purple)"><div class="project-dot" style="background:var(--purple)"></div> AI / ML</div>
+      <div class="project-title">Edge Inference Engine for Vision</div>
+      <div class="project-desc">Lightweight object detection optimized for ARM Cortex-M devices. Runs YOLOv5-nano at 30fps with post-training quantization on a $4 microcontroller.</div>
+      <div class="project-stack"><span class="stack-chip">TensorFlow Lite</span><span class="stack-chip">C++</span><span class="stack-chip">ARM CMSIS</span><span class="stack-chip">Python</span></div>
+      <div class="project-links"><a href="#" class="project-link">⌥ GitHub →</a><a href="#" class="project-link">📄 Paper</a></div>
+    </div>
+
+    <div class="project-card fade-in" data-cat="research" style="transition-delay:.16s">
+      <div class="project-type" style="color:var(--orange)"><div class="project-dot" style="background:var(--orange)"></div> Research Tool</div>
+      <div class="project-title">Federated Learning Simulation Framework</div>
+      <div class="project-desc">Modular Python framework for simulating federated learning across heterogeneous IoT nodes with configurable communication overhead and data drift.</div>
+      <div class="project-stack"><span class="stack-chip">PyTorch</span><span class="stack-chip">Flower FL</span><span class="stack-chip">Docker</span><span class="stack-chip">Python</span></div>
+      <div class="project-links"><a href="#" class="project-link">⌥ GitHub →</a><a href="#" class="project-link">📄 Paper</a></div>
+    </div>
+
+    <div class="project-card fade-in" data-cat="iot" style="transition-delay:.08s">
+      <div class="project-type" style="color:var(--green)"><div class="project-dot" style="background:var(--green)"></div> IoT Project</div>
+      <div class="project-title">Air Quality Network — City-Scale</div>
+      <div class="project-desc">40+ low-cost air quality sensor nodes deployed across an urban grid. Full stack from sensor calibration to public-facing map visualization.</div>
+      <div class="project-stack"><span class="stack-chip">ESP32</span><span class="stack-chip">AWS IoT Core</span><span class="stack-chip">Grafana</span><span class="stack-chip">React</span></div>
+      <div class="project-links"><a href="#" class="project-link">⌥ GitHub →</a><a href="#" class="project-link">↗ Live Map</a></div>
+    </div>
+
+    <div class="project-card fade-in" data-cat="ai" style="transition-delay:.16s">
+      <div class="project-type" style="color:var(--accent)"><div class="project-dot" style="background:var(--accent)"></div> ML Research</div>
+      <div class="project-title">Anomaly Detection for Industrial Sensors</div>
+      <div class="project-desc">Unsupervised temporal anomaly detection using autoencoders on vibration and temperature streams from manufacturing equipment.</div>
+      <div class="project-stack"><span class="stack-chip">Keras</span><span class="stack-chip">Time-Series</span><span class="stack-chip">LSTM-AE</span><span class="stack-chip">Kafka</span></div>
+      <div class="project-links"><a href="#" class="project-link">⌥ GitHub →</a><a href="#" class="project-link">📄 Paper</a></div>
+    </div>
+
+    <div class="project-card fade-in" data-cat="os">
+      <div class="project-type" style="color:var(--orange)"><div class="project-dot" style="background:var(--orange)"></div> Open Source</div>
+      <div class="project-title">MQTTflow — Visual Debugger</div>
+      <div class="project-desc">Desktop app for debugging and visualizing MQTT message flows in real time. 1.2k GitHub stars and a growing contributor community.</div>
+      <div class="project-stack"><span class="stack-chip">Electron</span><span class="stack-chip">React</span><span class="stack-chip">MQTT.js</span><span class="stack-chip">D3.js</span></div>
+      <div class="project-links"><a href="#" class="project-link">⌥ GitHub →</a><a href="#" class="project-link">↗ Website</a></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section id="articles">
+  <div class="section-header fade-in">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Articles &amp; <span>Opinions</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="articles-layout fade-in">
+    <div class="article-featured">
+      <div class="article-featured-img">THUMBNAIL</div>
+      <div class="article-meta"><span>IoT</span><span class="article-meta-dot"></span><span>Mar 2025</span><span class="article-meta-dot"></span><span>8 min read</span></div>
+      <h3 class="article-title">Why Most Edge AI Deployments Fail in Production (And How to Fix It)</h3>
+      <p class="article-excerpt">I've shipped a dozen edge inference pipelines over four years. The lab results looked great. Most struggled in the field. Here's the uncomfortable checklist I now go through before any deployment…</p>
+      <a href="#" class="read-more">Read full article →</a>
+    </div>
+    <div class="articles-sidebar">
+      <div class="article-mini"><div class="article-meta" style="margin-bottom:10px">AI · Feb 2025</div><div class="article-mini-title">LLMs Can't Replace Domain Expertise — Here's What They're Actually Good For</div><div class="article-mini-meta">6 min · 2.1k reads</div></div>
+      <div class="article-mini"><div class="article-meta" style="margin-bottom:10px">IoT · Jan 2025</div><div class="article-mini-title">The Hidden Costs of LoRaWAN at Scale: A Field Report</div><div class="article-mini-meta">10 min · 4.8k reads</div></div>
+      <div class="article-mini"><div class="article-meta" style="margin-bottom:10px">ML · Dec 2024</div><div class="article-mini-title">Federated Learning Isn't Just Privacy — It's About Latency</div><div class="article-mini-meta">7 min · 1.5k reads</div></div>
+      <div class="article-mini"><div class="article-meta" style="margin-bottom:10px">Opinion · Nov 2024</div><div class="article-mini-title">We're Building the Wrong Kind of Smart Homes</div><div class="article-mini-meta">5 min · 6.2k reads</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-header fade-in">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Research <span>Papers</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="research-grid fade-in">
+
+    <div class="research-card">
+      <div class="research-badge">Published · IEEE IoT Journal 2024</div>
+      <div class="research-title">Adaptive Quantization for Heterogeneous Edge Inference Pipelines</div>
+      <div class="research-abstract">Dynamic bit-width quantization scheme that adjusts model precision based on real-time device compute budget and network latency. 3.4× compression with &lt;1.2% accuracy drop across five embedded platforms.</div>
+      <div class="research-tags"><span class="research-tag">Edge AI</span><span class="research-tag">Quantization</span><span class="research-tag">TinyML</span><span class="research-tag">Embedded</span></div>
+      <div class="research-links"><a href="#" class="research-link pdf">↓ PDF</a><a href="#" class="research-link code">⌥ Code</a><a href="#" class="research-link ext">↗ IEEE</a></div>
+    </div>
+
+    <div class="research-card">
+      <div class="research-badge">Published · ACM SenSys 2023</div>
+      <div class="research-title">FedSense: Federated Learning Over Low-Power Sensor Networks</div>
+      <div class="research-abstract">Communication-efficient federated learning for duty-cycled, battery-powered IoT sensors. 62% reduction in communication overhead vs FedAvg while maintaining convergence on non-IID data.</div>
+      <div class="research-tags"><span class="research-tag">Federated Learning</span><span class="research-tag">IoT</span><span class="research-tag">Privacy</span><span class="research-tag">Low-Power</span></div>
+      <div class="research-links"><a href="#" class="research-link pdf">↓ PDF</a><a href="#" class="research-link code">⌥ Code</a><a href="#" class="research-link ext">↗ ACM DL</a></div>
+    </div>
+
+    <div class="research-card">
+      <div class="research-badge">Preprint · arXiv 2025</div>
+      <div class="research-title">Real-Time Anomaly Detection in Industrial IoT Using Sparse Autoencoders</div>
+      <div class="research-abstract">Sparse autoencoder architecture for unsupervised anomaly detection on multivariate sensor streams. Deployed on Siemens PLC hardware with sub-5ms inference latency across three public industrial datasets.</div>
+      <div class="research-tags"><span class="research-tag">Anomaly Detection</span><span class="research-tag">IIoT</span><span class="research-tag">Autoencoders</span><span class="research-tag">Real-Time</span></div>
+      <div class="research-links"><a href="#" class="research-link pdf">↓ PDF</a><a href="#" class="research-link code">⌥ Code</a><a href="#" class="research-link ext">↗ arXiv</a></div>
+    </div>
+
+    <div class="research-card">
+      <div class="research-badge">Workshop · NeurIPS 2023</div>
+      <div class="research-title">Toward Self-Healing IoT Networks via Reinforcement Learning</div>
+      <div class="research-abstract">Network fault recovery in large-scale IoT deployments formalized as a Markov Decision Process. PPO agent deployed on a 30-node testbed achieves 89% fault recovery within 45 seconds.</div>
+      <div class="research-tags"><span class="research-tag">RL</span><span class="research-tag">Network Resilience</span><span class="research-tag">IoT</span><span class="research-tag">PPO</span></div>
+      <div class="research-links"><a href="#" class="research-link pdf">↓ PDF</a><a href="#" class="research-link code">⌥ Code</a><a href="#" class="research-link ext">↗ NeurIPS</a></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-header fade-in">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Video <span>Content</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="videos-grid fade-in">
+    <div class="video-card"><div class="video-thumb"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-info"><div class="video-title">Building a LoRaWAN Sensor Network From Scratch</div><div class="video-meta">42 min · 18.4k views</div></div></div>
+    <div class="video-card"><div class="video-thumb" style="background:linear-gradient(135deg,#1a0a2e,#0a1a2e)"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-info"><div class="video-title">TinyML: Running Neural Nets on a $2 Chip</div><div class="video-meta">1h 05min · 34.1k views</div></div></div>
+    <div class="video-card"><div class="video-thumb" style="background:linear-gradient(135deg,#0a2e1a,#0a1a2e)"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-info"><div class="video-title">Is Federated Learning Ready for Production?</div><div class="video-meta">28 min · 9.7k views</div></div></div>
+    <div class="video-card"><div class="video-thumb" style="background:linear-gradient(135deg,#2e1a0a,#1a2e0a)"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-info"><div class="video-title">My AI Home Lab Setup — Full Tour 2025</div><div class="video-meta">18 min · 22.3k views</div></div></div>
+    <div class="video-card"><div class="video-thumb" style="background:linear-gradient(135deg,#0a0a2e,#2e0a2e)"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-info"><div class="video-title">Explaining My Research: FedSense</div><div class="video-meta">22 min · 6.8k views</div></div></div>
+    <div class="video-card"><div class="video-thumb" style="background:linear-gradient(135deg,#2e0a0a,#2e2e0a)"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div></div><div class="video-info"><div class="video-title">Live Coding: MQTT Dashboard in Under an Hour</div><div class="video-meta">58 min · 11.2k views</div></div></div>
+  </div>
+</section>
+
+<!-- OPEN SOURCE -->
+<section id="opensource">
+  <div class="section-header fade-in">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Open Source <span>Work</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="os-grid fade-in">
+    <div class="os-card"><div class="os-header"><div class="os-title">mqttflow</div><div class="os-stars">★ 1.2k</div></div><div class="os-desc">Visual MQTT debugger for IoT developers. Real-time message flow visualization, topic inspector, and payload decoder.</div><div class="os-lang"><div class="lang-dot" style="background:#3178c6"></div> TypeScript</div></div>
+    <div class="os-card"><div class="os-header"><div class="os-title">edgeml-bench</div><div class="os-stars">★ 847</div></div><div class="os-desc">Benchmarking suite for edge ML models across 12 embedded platforms. Automated latency, memory, and accuracy profiling.</div><div class="os-lang"><div class="lang-dot" style="background:#3572A5"></div> Python</div></div>
+    <div class="os-card"><div class="os-header"><div class="os-title">fedsense-py</div><div class="os-stars">★ 632</div></div><div class="os-desc">Python implementation of the FedSense federated learning protocol. Plug-and-play with any PyTorch model and IoT simulator.</div><div class="os-lang"><div class="lang-dot" style="background:#3572A5"></div> Python</div></div>
+    <div class="os-card"><div class="os-header"><div class="os-title">iot-anomaly-kit</div><div class="os-stars">★ 418</div></div><div class="os-desc">Toolkit for building and evaluating anomaly detection pipelines on industrial IoT datasets. 5 baseline models included.</div><div class="os-lang"><div class="lang-dot" style="background:#3572A5"></div> Python</div></div>
+    <div class="os-card"><div class="os-header"><div class="os-title">lorawan-sim</div><div class="os-stars">★ 291</div></div><div class="os-desc">Discrete-event simulator for LoRaWAN network planning. Models path loss, interference, and ADR algorithms.</div><div class="os-lang"><div class="lang-dot" style="background:#00ADD8"></div> Go</div></div>
+    <div class="os-card"><div class="os-header"><div class="os-title">rpi-ml-deploy</div><div class="os-stars">★ 204</div></div><div class="os-desc">One-command ML model deployment for Raspberry Pi. Handles quantization, packaging, and REST API serving automatically.</div><div class="os-lang"><div class="lang-dot" style="background:#3572A5"></div> Python</div></div>
+  </div>
+</section>
+
+<!-- COLLABORATE -->
+<section id="collaborate">
+  <div class="section-header fade-in">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Work With <span>Me</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="collab-grid fade-in">
+    <div class="collab-card">
+      <div class="collab-icon">✍️</div>
+      <div class="collab-title">Sponsored Articles</div>
+      <div class="collab-desc">Honest, technically deep articles for your product or platform targeted at IoT developers, ML engineers, and embedded practitioners. Full editorial integrity retained.</div>
+      <div class="collab-price">$800 <span>/ article</span></div>
+      <a href="#contact" class="btn btn-outline" style="font-size:11px;padding:10px 24px">Inquire →</a>
+    </div>
+    <div class="collab-card">
+      <div class="collab-icon">🎥</div>
+      <div class="collab-title">Video Partnerships</div>
+      <div class="collab-desc">Integration or dedicated videos on my YouTube channel. I build real demos with your product — genuine technical exploration, not talking-head ads, in front of an engaged audience.</div>
+      <div class="collab-price">$1,500 <span>/ video</span></div>
+      <a href="#contact" class="btn btn-outline" style="font-size:11px;padding:10px 24px">Inquire →</a>
+    </div>
+    <div class="collab-card">
+      <div class="collab-icon">🔬</div>
+      <div class="collab-title">Research Collaboration</div>
+      <div class="collab-desc">Joint research, technical consulting, or advisory roles for companies working in IoT, edge AI, and industrial ML. Includes co-authorship and implementation support.</div>
+      <div class="collab-price">Custom <span>pricing</span></div>
+      <a href="#contact" class="btn btn-outline" style="font-size:11px;padding:10px 24px">Let's Talk →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-in">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Get In <span>Touch</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-layout fade-in">
+    <div class="contact-info">
+      <h2>Let's Build<span>Something.</span></h2>
+      <p>Whether it's a collaboration, research, a sponsored piece, or just a conversation about edge AI and IoT — I'm genuinely interested. Reach out through any of these channels.</p>
+      <div class="contact-links-list">
+        <a href="mailto:you@example.com" class="contact-link"><span class="contact-link-icon">@</span><div><div class="contact-link-label">Email</div><div class="contact-link-value">you@example.com</div></div></a>
+        <a href="https://twitter.com" target="_blank" class="contact-link"><span class="contact-link-icon">𝕏</span><div><div class="contact-link-label">Twitter / X</div><div class="contact-link-value">@yourusername</div></div></a>
+        <a href="https://linkedin.com" target="_blank" class="contact-link"><span class="contact-link-icon">in</span><div><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">/in/yourname</div></div></a>
+        <a href="https://github.com" target="_blank" class="contact-link"><span class="contact-link-icon">⌥</span><div><div class="contact-link-label">GitHub</div><div class="contact-link-value">@yourusername</div></div></a>
       </div>
     </div>
-  </section>
-
-  <!-- ===========================
-       OPEN SOURCE SECTION
-       =========================== -->
-  <section id="opensource" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">Open Source</div>
-        <h2 class="section-title fade-in">Giving Back to the Community</h2>
-        <p class="section-subtitle fade-in">Active contributor and maintainer of open source tools and libraries.</p>
+    <div>
+      <div class="contact-form" id="contactForm">
+        <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" placeholder="Jane Smith" /></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="jane@company.com" /></div>
+        <div class="form-group">
+          <label class="form-label">Enquiry Type</label>
+          <select class="form-select">
+            <option>— Select —</option>
+            <option>Sponsored Article</option>
+            <option>Video Partnership</option>
+            <option>Research Collaboration</option>
+            <option>Open Source / Contribution</option>
+            <option>General Enquiry</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="Tell me about your project or idea…"></textarea></div>
+        <button class="form-submit" onclick="handleSubmit(this)">Send Message →</button>
       </div>
-
-      <div class="card-grid">
-        <!-- Repo 1 -->
-        <div class="card fade-in scale-in stagger-1">
-          <div class="card-icon">📦</div>
-          <h3 class="card-title">mqtt-dashboard</h3>
-          <p class="card-description">A real-time MQTT dashboard for monitoring IoT devices. Built with React, WebSocket, and Chart.js. Supports custom widgets and alerting.</p>
-          <div class="card-tags">
-            <span class="tag">TypeScript</span>
-            <span class="tag purple">React</span>
-            <span class="tag blue">MQTT</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">GitHub ↗</a>
-            <div class="repo-stats">
-              <span class="repo-stat">⭐ 342</span>
-              <span class="repo-stat">🍴 87</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repo 2 -->
-        <div class="card fade-in scale-in stagger-2">
-          <div class="card-icon">🔧</div>
-          <h3 class="card-title">edge-ml-toolkit</h3>
-          <p class="card-description">Python toolkit for converting, optimizing, and deploying ML models on edge devices. Supports TFLite, ONNX, and custom hardware.</p>
-          <div class="card-tags">
-            <span class="tag">Python</span>
-            <span class="tag purple">TFLite</span>
-            <span class="tag blue">ONNX</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">GitHub ↗</a>
-            <div class="repo-stats">
-              <span class="repo-stat">⭐ 215</span>
-              <span class="repo-stat">🍴 53</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repo 3 -->
-        <div class="card fade-in scale-in stagger-3">
-          <div class="card-icon">📡</div>
-          <h3 class="card-title">sensor-data-pipeline</h3>
-          <p class="card-description">End-to-end data pipeline for IoT sensor data ingestion, processing, and visualization using Apache Kafka, InfluxDB, and Grafana.</p>
-          <div class="card-tags">
-            <span class="tag">Go</span>
-            <span class="tag purple">Kafka</span>
-            <span class="tag blue">InfluxDB</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">GitHub ↗</a>
-            <div class="repo-stats">
-              <span class="repo-stat">⭐ 178</span>
-              <span class="repo-stat">🍴 42</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repo 4 -->
-        <div class="card fade-in scale-in stagger-4">
-          <div class="card-icon">🤖</div>
-          <h3 class="card-title">ros-nav-stack</h3>
-          <p class="card-description">Custom navigation stack for ROS2 with SLAM, path planning, and obstacle avoidance for autonomous mobile robots.</p>
-          <div class="card-tags">
-            <span class="tag">C++</span>
-            <span class="tag purple">ROS2</span>
-            <span class="tag blue">SLAM</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">GitHub ↗</a>
-            <div class="repo-stats">
-              <span class="repo-stat">⭐ 156</span>
-              <span class="repo-stat">🍴 38</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repo 5 -->
-        <div class="card fade-in scale-in stagger-5">
-          <div class="card-icon">🔐</div>
-          <h3 class="card-title">iot-security-scanner</h3>
-          <p class="card-description">Automated security scanner for IoT devices that checks for common vulnerabilities, default credentials, and unencrypted protocols.</p>
-          <div class="card-tags">
-            <span class="tag">Python</span>
-            <span class="tag purple">Security</span>
-            <span class="tag blue">Nmap</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">GitHub ↗</a>
-            <div class="repo-stats">
-              <span class="repo-stat">⭐ 289</span>
-              <span class="repo-stat">🍴 71</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Repo 6 -->
-        <div class="card fade-in scale-in stagger-6">
-          <div class="card-icon">📱</div>
-          <h3 class="card-title">ble-device-manager</h3>
-          <p class="card-description">Cross-platform BLE device management library for connecting, configuring, and monitoring Bluetooth Low Energy IoT peripherals.</p>
-          <div class="card-tags">
-            <span class="tag">Dart</span>
-            <span class="tag purple">Flutter</span>
-            <span class="tag blue">BLE</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">GitHub ↗</a>
-            <div class="repo-stats">
-              <span class="repo-stat">⭐ 134</span>
-              <span class="repo-stat">🍴 29</span>
-            </div>
-          </div>
-        </div>
+      <div id="formSuccess" style="display:none; margin-top:0; padding:24px 20px; background:var(--surface); border:1px solid var(--green); color:var(--green); font-size:13px; letter-spacing:0.05em;">
+        ✓ Message sent successfully! I'll get back to you within 48 hours.
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===========================
-       ARTICLES / BLOG SECTION
-       =========================== -->
-  <section id="articles" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">Articles & Blog</div>
-        <h2 class="section-title fade-in">My Tech Perspectives</h2>
-        <p class="section-subtitle fade-in">In-depth articles on the latest tech from my point of view — tutorials, opinions, and deep dives.</p>
-      </div>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">your<span>.</span>name</div>
+  <div class="footer-copy">© 2025 Your Name. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#hero">Top ↑</a>
+    <a href="#projects">Projects</a>
+    <a href="#research">Research</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
 
-      <div class="filter-tabs fade-in">
-        <button class="filter-tab active" data-filter="all">All</button>
-        <button class="filter-tab" data-filter="tutorial">Tutorials</button>
-        <button class="filter-tab" data-filter="opinion">Opinions</button>
-        <button class="filter-tab" data-filter="deep-dive">Deep Dives</button>
-        <button class="filter-tab" data-filter="update">Tech Updates</button>
-      </div>
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+  });
+  (function animRing() {
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter',()=>{ cursor.style.width='20px'; cursor.style.height='20px'; cursor.style.background='var(--green)'; });
+    el.addEventListener('mouseleave',()=>{ cursor.style.width='10px'; cursor.style.height='10px'; cursor.style.background='var(--accent)'; });
+  });
 
-      <div class="card-grid">
-        <!-- Article 1 -->
-        <div class="card article-card fade-in scale-in stagger-1" data-category="deep-dive">
-          <div class="article-image">📡</div>
-          <div class="card-meta">
-            <span>Mar 10, 2026</span>
-            <span class="read-time">📖 12 min read</span>
-            <span class="featured-badge">Featured</span>
-          </div>
-          <h3 class="card-title">Why Matter Protocol Will Change IoT Forever</h3>
-          <p class="card-description">A deep dive into the Matter protocol, its implications for smart home interoperability, and why I think it's the biggest leap in IoT since MQTT.</p>
-          <div class="card-tags">
-            <span class="tag">IoT</span>
-            <span class="tag purple">Matter</span>
-            <span class="tag blue">Smart Home</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Article →</a>
-          </div>
-        </div>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    document.getElementById('scrollBar').style.width =
+      (window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100) + '%';
+  });
 
-        <!-- Article 2 -->
-        <div class="card article-card fade-in scale-in stagger-2" data-category="tutorial">
-          <div class="article-image">🧪</div>
-          <div class="card-meta">
-            <span>Feb 28, 2026</span>
-            <span class="read-time">📖 18 min read</span>
-          </div>
-          <h3 class="card-title">Building a TinyML Model for Gesture Recognition</h3>
-          <p class="card-description">Step-by-step guide to training and deploying a gesture recognition model on Arduino Nano 33 BLE using TensorFlow Lite Micro.</p>
-          <div class="card-tags">
-            <span class="tag">TinyML</span>
-            <span class="tag purple">Arduino</span>
-            <span class="tag blue">Tutorial</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Article →</a>
-          </div>
-        </div>
+  // Fade in observer
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 }).observe === undefined ? null :
+  (() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  })();
+  // Ensure fade-in works
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
-        <!-- Article 3 -->
-        <div class="card article-card fade-in scale-in stagger-3" data-category="opinion">
-          <div class="article-image">🤔</div>
-          <div class="card-meta">
-            <span>Feb 15, 2026</span>
-            <span class="read-time">📖 8 min read</span>
-          </div>
-          <h3 class="card-title">The Real Problem with AI in Healthcare</h3>
-          <p class="card-description">My honest take on why AI adoption in healthcare is slower than predicted, and what needs to change in how we build healthcare ML systems.</p>
-          <div class="card-tags">
-            <span class="tag">AI</span>
-            <span class="tag purple">Healthcare</span>
-            <span class="tag orange">Opinion</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Article →</a>
-          </div>
-        </div>
+  // Project filter
+  function filterProjects(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.style.display = (cat==='all' || card.dataset.cat===cat) ? 'block' : 'none';
+    });
+  }
 
-        <!-- Article 4 -->
-        <div class="card article-card fade-in scale-in stagger-4" data-category="update">
-          <div class="article-image">🔥</div>
-          <div class="card-meta">
-            <span>Feb 02, 2026</span>
-            <span class="read-time">📖 6 min read</span>
-          </div>
-          <h3 class="card-title">Top 5 IoT Trends to Watch in 2026</h3>
-          <p class="card-description">My annual roundup of the most exciting IoT developments — from AI-powered edge devices to satellite-connected sensors.</p>
-          <div class="card-tags">
-            <span class="tag">IoT</span>
-            <span class="tag purple">Trends</span>
-            <span class="tag blue">2026</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Article →</a>
-          </div>
-        </div>
-
-        <!-- Article 5 -->
-        <div class="card article-card fade-in scale-in stagger-5" data-category="tutorial">
-          <div class="article-image">🔧</div>
-          <div class="card-meta">
-            <span>Jan 20, 2026</span>
-            <span class="read-time">📖 15 min read</span>
-          </div>
-          <h3 class="card-title">ESP32-S3 with Camera: Complete Guide</h3>
-          <p class="card-description">Everything you need to know about using ESP32-S3 with OV2640 camera module — from wiring to streaming over WebSocket.</p>
-          <div class="card-tags">
-            <span class="tag">ESP32</span>
-            <span class="tag purple">Camera</span>
-            <span class="tag blue">Tutorial</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Article →</a>
-          </div>
-        </div>
-
-        <!-- Article 6 -->
-        <div class="card article-card fade-in scale-in stagger-6" data-category="deep-dive">
-          <div class="article-image">🔬</div>
-          <div class="card-meta">
-            <span>Jan 08, 2026</span>
-            <span class="read-time">📖 20 min read</span>
-          </div>
-          <h3 class="card-title">Understanding Transformer Architectures for Time Series</h3>
-          <p class="card-description">A comprehensive breakdown of how transformer models can be adapted for time-series forecasting in IoT applications.</p>
-          <div class="card-tags">
-            <span class="tag">Transformers</span>
-            <span class="tag purple">Time Series</span>
-            <span class="tag blue">Deep Dive</span>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="card-link">Read Article →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===========================
-       RESEARCH PAPERS SECTION
-       =========================== -->
-  <section id="papers" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">Research Papers</div>
-        <h2 class="section-title fade-in">Published Work</h2>
-        <p class="section-subtitle fade-in">Peer-reviewed papers and preprints with project file structures and source code.</p>
-      </div>
-
-      <div class="card-grid">
-        <!-- Paper 1 -->
-        <div class="card paper-card fade-in scale-in stagger-1">
-          <div class="card-icon">📄</div>
-          <h3 class="card-title">Lightweight CNN for Edge Object Detection</h3>
-          <p class="card-description">Published in IEEE IoT Journal, 2026. Novel architecture achieving 94.2% accuracy with 3x inference speedup on Cortex-M7.</p>
-          <div class="file-tree">
-            <div class="folder">📁 edge-detection-paper/</div>
-            <div class="file">├── 📄 paper.pdf</div>
-            <div class="file">├── 📁 src/</div>
-            <div class="file">│   ├── model.py</div>
-            <div class="file">│   ├── train.py</div>
-            <div class="file">│   ├── evaluate.py</div>
-            <div class="file">│   └── utils/</div>
-            <div class="file">├── 📁 data/</div>
-            <div class="file">│   └── README.md</div>
-            <div class="file">├── 📁 results/</div>
-            <div class="file">│   ├── benchmarks.csv</div>
-            <div class="file">│   └── figures/</div>
-            <div class="file">├── requirements.txt</div>
-            <div class="file">└── README.md</div>
-          </div>
-          <div class="paper-links">
-            <a href="#" class="btn btn-sm btn-secondary">📄 PDF</a>
-            <a href="#" class="btn btn-sm btn-secondary">💻 Code</a>
-            <a href="#" class="btn btn-sm btn-secondary">📊 Dataset</a>
-          </div>
-        </div>
-
-        <!-- Paper 2 -->
-        <div class="card paper-card fade-in scale-in stagger-2">
-          <div class="card-icon">📄</div>
-          <h3 class="card-title">Federated Learning for Privacy-Preserving IoT</h3>
-          <p class="card-description">Published in ACM Computing Surveys, 2025. Framework for collaborative model training across distributed IoT nodes.</p>
-          <div class="file-tree">
-            <div class="folder">📁 federated-iot-paper/</div>
-            <div class="file">├── 📄 paper.pdf</div>
-            <div class="file">├── 📁 src/</div>
-            <div class="file">│   ├── server.py</div>
-            <div class="file">│   ├── client.py</div>
-            <div class="file">│   ├── aggregation.py</div>
-            <div class="file">│   └── models/</div>
-            <div class="file">├── 📁 experiments/</div>
-            <div class="file">│   ├── config.yaml</div>
-            <div class="file">│   └── scripts/</div>
-            <div class="file">├── 📁 docs/</div>
-            <div class="file">├── Dockerfile</div>
-            <div class="file">└── README.md</div>
-          </div>
-          <div class="paper-links">
-            <a href="#" class="btn btn-sm btn-secondary">📄 PDF</a>
-            <a href="#" class="btn btn-sm btn-secondary">💻 Code</a>
-            <a href="#" class="btn btn-sm btn-secondary">🐳 Docker</a>
-          </div>
-        </div>
-
-        <!-- Paper 3 -->
-        <div class="card paper-card fade-in scale-in stagger-3">
-          <div class="card-icon">📄</div>
-          <h3 class="card-title">Transformer-Based Anomaly Detection in Sensor Networks</h3>
-          <p class="card-description">ArXiv preprint, 2026. Unsupervised anomaly detection using modified attention mechanisms for multivariate sensor data streams.</p>
-          <div class="file-tree">
-            <div class="folder">📁 sensor-anomaly-paper/</div>
-            <div class="file">├── 📄 paper.pdf</div>
-            <div class="file">├── 📁 src/</div>
-            <div class="file">│   ├── transformer.py</div>
-            <div class="file">│   ├── attention.py</div>
-            <div class="file">│   ├── data_loader.py</div>
-            <div class="file">│   └── inference.py</div>
-            <div class="file">├── 📁 notebooks/</div>
-            <div class="file">│   ├── EDA.ipynb</div>
-            <div class="file">│   └── visualization.ipynb</div>
-            <div class="file">├── 📁 configs/</div>
-            <div class="file">├── setup.py</div>
-            <div class="file">└── README.md</div>
-          </div>
-          <div class="paper-links">
-            <a href="#" class="btn btn-sm btn-secondary">📄 PDF</a>
-            <a href="#" class="btn btn-sm btn-secondary">💻 Code</a>
-            <a href="#" class="btn btn-sm btn-secondary">📓 Notebooks</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===========================
-       VIDEOS SECTION
-       =========================== -->
-  <section id="videos" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">Videos</div>
-        <h2 class="section-title fade-in">Watch & Learn</h2>
-        <p class="section-subtitle fade-in">Video tutorials, demos, and tech talks on IoT, AI/ML, and more.</p>
-      </div>
-
-      <div class="video-grid">
-        <!-- Video 1 -->
-        <div class="video-card fade-in scale-in stagger-1" data-video-url="https://youtube.com">
-          <div class="video-thumbnail">
-            <div class="play-btn">▶</div>
-            <span class="duration">15:42</span>
-          </div>
-          <div class="video-info">
-            <h4>Building a Smart Home from Scratch — Full Walkthrough</h4>
-            <p>Complete guide to setting up a Raspberry Pi-based smart home system with custom automations.</p>
-          </div>
-        </div>
-
-        <!-- Video 2 -->
-        <div class="video-card fade-in scale-in stagger-2" data-video-url="https://youtube.com">
-          <div class="video-thumbnail">
-            <div class="play-btn">▶</div>
-            <span class="duration">22:18</span>
-          </div>
-          <div class="video-info">
-            <h4>Deploying ML Models on ESP32 — TinyML Tutorial</h4>
-            <p>Step-by-step guide to running TensorFlow Lite models on ESP32 for real-time inference.</p>
-          </div>
-        </div>
-
-        <!-- Video 3 -->
-        <div class="video-card fade-in scale-in stagger-3" data-video-url="https://youtube.com">
-          <div class="video-thumbnail">
-            <div class="play-btn">▶</div>
-            <span class="duration">12:05</span>
-          </div>
-          <div class="video-info">
-            <h4>My Desk Setup for IoT Development — 2026 Edition</h4>
-            <p>Tour of my workspace, tools, and hardware for prototyping IoT devices and embedded systems.</p>
-          </div>
-        </div>
-
-        <!-- Video 4 -->
-        <div class="video-card fade-in scale-in stagger-4" data-video-url="https://youtube.com">
-          <div class="video-thumbnail">
-            <div class="play-btn">▶</div>
-            <span class="duration">28:30</span>
-          </div>
-          <div class="video-info">
-            <h4>Federated Learning Explained — From Theory to Code</h4>
-            <p>Deep dive into federated learning concepts and how to implement them using PySyft and PyTorch.</p>
-          </div>
-        </div>
-
-        <!-- Video 5 -->
-        <div class="video-card fade-in scale-in stagger-5" data-video-url="https://youtube.com">
-          <div class="video-thumbnail">
-            <div class="play-btn">▶</div>
-            <span class="duration">18:55</span>
-          </div>
-          <div class="video-info">
-            <h4>LoRa Mesh Network — Complete Build Guide</h4>
-            <p>How I built a LoRa mesh network for long-range sensor communication in rural areas.</p>
-          </div>
-        </div>
-
-        <!-- Video 6 -->
-        <div class="video-card fade-in scale-in stagger-6" data-video-url="https://youtube.com">
-          <div class="video-thumbnail">
-            <div class="play-btn">▶</div>
-            <span class="duration">35:12</span>
-          </div>
-          <div class="video-info">
-            <h4>Tech Talk: The Future of Edge AI — Conference Keynote</h4>
-            <p>My keynote presentation on the evolution and future trajectory of AI at the edge.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===========================
-       PROMOTIONS & COLLABORATIONS
-       =========================== -->
-  <section id="collaborations" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">Collaborations</div>
-        <h2 class="section-title fade-in">Let's Work Together</h2>
-        <p class="section-subtitle fade-in">Open for paid promotions, sponsored content, and technical collaborations.</p>
-      </div>
-
-      <p class="collab-intro fade-in">
-        I partner with tech companies, startups, and fellow creators to produce high-quality content, 
-        reviews, and technical integrations. If your product aligns with IoT, AI/ML, or developer tools — let's talk.
-      </p>
-
-      <!-- Pricing Tiers -->
-      <div class="pricing-grid">
-        <div class="pricing-card fade-in scale-in stagger-1">
-          <div class="tier-icon">🚀</div>
-          <h3>Starter</h3>
-          <div class="price">$299</div>
-          <div class="price-period">per collaboration</div>
-          <ul class="pricing-features">
-            <li><span class="check">✓</span> Social media mention</li>
-            <li><span class="check">✓</span> Product review article</li>
-            <li><span class="check">✓</span> 1 round of revisions</li>
-            <li><span class="check">✓</span> Analytics report</li>
-          </ul>
-          <a href="#contact" class="btn btn-secondary" style="width:100%;justify-content:center;">Get Started</a>
-        </div>
-
-        <div class="pricing-card featured fade-in scale-in stagger-2">
-          <div class="tier-icon">⚡</div>
-          <h3>Professional</h3>
-          <div class="price">$799</div>
-          <div class="price-period">per collaboration</div>
-          <ul class="pricing-features">
-            <li><span class="check">✓</span> Everything in Starter</li>
-            <li><span class="check">✓</span> Dedicated video review</li>
-            <li><span class="check">✓</span> Tutorial / integration guide</li>
-            <li><span class="check">✓</span> GitHub sample project</li>
-            <li><span class="check">✓</span> 3 rounds of revisions</li>
-          </ul>
-          <a href="#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Get Started</a>
-        </div>
-
-        <div class="pricing-card fade-in scale-in stagger-3">
-          <div class="tier-icon">💎</div>
-          <h3>Enterprise</h3>
-          <div class="price">Custom</div>
-          <div class="price-period">tailored to your needs</div>
-          <ul class="pricing-features">
-            <li><span class="check">✓</span> Everything in Professional</li>
-            <li><span class="check">✓</span> Multi-part content series</li>
-            <li><span class="check">✓</span> Conference / webinar speaking</li>
-            <li><span class="check">✓</span> Long-term brand partnership</li>
-            <li><span class="check">✓</span> Custom technical integration</li>
-          </ul>
-          <a href="#contact" class="btn btn-secondary" style="width:100%;justify-content:center;">Contact Me</a>
-        </div>
-      </div>
-
-      <!-- Collaboration Types -->
-      <div class="section-header" style="margin-top: 60px;">
-        <h3 class="section-title fade-in" style="font-size: 1.8rem;">Types of Collaboration</h3>
-      </div>
-
-      <div class="collab-types">
-        <div class="collab-type-card fade-in scale-in stagger-1">
-          <div class="collab-icon">📝</div>
-          <h4>Sponsored Articles</h4>
-          <p>In-depth review or tutorial featuring your product</p>
-        </div>
-        <div class="collab-type-card fade-in scale-in stagger-2">
-          <div class="collab-icon">🎥</div>
-          <h4>Video Reviews</h4>
-          <p>Hands-on video demo and honest product review</p>
-        </div>
-        <div class="collab-type-card fade-in scale-in stagger-3">
-          <div class="collab-icon">🔗</div>
-          <h4>Technical Integration</h4>
-          <p>Build a project using your dev tool or hardware</p>
-        </div>
-        <div class="collab-type-card fade-in scale-in stagger-4">
-          <div class="collab-icon">🎤</div>
-          <h4>Speaking & Workshops</h4>
-          <p>Conference talks, webinars, and hands-on sessions</p>
-        </div>
-        <div class="collab-type-card fade-in scale-in stagger-5">
-          <div class="collab-icon">🤝</div>
-          <h4>Brand Ambassadorship</h4>
-          <p>Long-term partnership with ongoing content creation</p>
-        </div>
-        <div class="collab-type-card fade-in scale-in stagger-6">
-          <div class="collab-icon">💡</div>
-          <h4>Consulting</h4>
-          <p>Technical consulting for IoT / AI product development</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===========================
-       CONTACT SECTION
-       =========================== -->
-  <section id="contact" class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-label fade-in">Contact</div>
-        <h2 class="section-title fade-in">Get in Touch</h2>
-        <p class="section-subtitle fade-in">Have a question, project idea, or collaboration proposal? I'd love to hear from you.</p>
-      </div>
-
-      <div class="contact-grid">
-        <div class="contact-info fade-in-left">
-          <h3>Let's Connect</h3>
-          <p>
-            Whether you're interested in working together, have a question about one of my projects,
-            or just want to chat about tech — feel free to reach out.
-          </p>
-
-          <div class="contact-methods">
-            <div class="contact-method">
-              <div class="method-icon">📧</div>
-              <div>
-                <div class="method-label">Email</div>
-                <div class="method-value">hello@tony.dev</div>
-              </div>
-            </div>
-            <div class="contact-method">
-              <div class="method-icon">📍</div>
-              <div>
-                <div class="method-label">Location</div>
-                <div class="method-value">India</div>
-              </div>
-            </div>
-            <div class="contact-method">
-              <div class="method-icon">⏰</div>
-              <div>
-                <div class="method-label">Response Time</div>
-                <div class="method-value">Within 24 hours</div>
-              </div>
-            </div>
-          </div>
-
-          <h4 style="margin-bottom: 16px; color: var(--text-secondary);">Follow Me</h4>
-          <div class="social-links">
-            <a href="#" class="social-link" aria-label="GitHub">🐙</a>
-            <a href="#" class="social-link" aria-label="Twitter/X">𝕏</a>
-            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
-            <a href="#" class="social-link" aria-label="YouTube">▶</a>
-            <a href="#" class="social-link" aria-label="Dev.to">🔗</a>
-          </div>
-        </div>
-
-        <div class="contact-form fade-in-right">
-          <form id="contact-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="contact-name">Your Name</label>
-                <input type="text" id="contact-name" placeholder="John Doe" required>
-                <div class="form-error"></div>
-              </div>
-              <div class="form-group">
-                <label for="contact-email">Email Address</label>
-                <input type="email" id="contact-email" placeholder="john@example.com" required>
-                <div class="form-error"></div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="contact-type">Inquiry Type</label>
-              <select id="contact-type">
-                <option value="general">General Inquiry</option>
-                <option value="collaboration">Collaboration / Sponsorship</option>
-                <option value="consulting">Technical Consulting</option>
-                <option value="speaking">Speaking Engagement</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="contact-subject">Subject</label>
-              <input type="text" id="contact-subject" placeholder="What's this about?" required>
-              <div class="form-error"></div>
-            </div>
-
-            <div class="form-group">
-              <label for="contact-message">Message</label>
-              <textarea id="contact-message" placeholder="Tell me about your project or idea..." required></textarea>
-              <div class="form-error"></div>
-            </div>
-
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
-              Send Message →
-            </button>
-
-            <div class="form-success">
-              <div class="success-icon">✅</div>
-              <h4>Message Sent!</h4>
-              <p>Thank you for reaching out. I'll get back to you within 24 hours.</p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===========================
-       FOOTER
-       =========================== -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#hero" class="nav-logo"><span>&lt;</span>Tony<span>/&gt;</span></a>
-          <p>Engineer, researcher, and creator exploring the intersection of IoT, AI/ML, and open source technology.</p>
-          <div class="social-links">
-            <a href="#" class="social-link" aria-label="GitHub">🐙</a>
-            <a href="#" class="social-link" aria-label="Twitter/X">𝕏</a>
-            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
-            <a href="#" class="social-link" aria-label="YouTube">▶</a>
-          </div>
-        </div>
-
-        <div class="footer-col">
-          <h4>Explore</h4>
-          <a href="#iot-projects">IoT Projects</a>
-          <a href="#ai-research">AI/ML Research</a>
-          <a href="#opensource">Open Source</a>
-          <a href="#articles">Articles</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="#papers">Research Papers</a>
-          <a href="#videos">Videos</a>
-          <a href="#">Newsletter</a>
-          <a href="#">RSS Feed</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <a href="#collaborations">Collaborations</a>
-          <a href="#contact">Contact</a>
-          <a href="#">GitHub</a>
-          <a href="#">LinkedIn</a>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© 2026 Tony. All rights reserved.</p>
-        <p>Crafted with ⚡ and lots of ☕</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- JavaScript -->
-  <script src="js/main.js"></script>
+  // Contact form
+  function handleSubmit(btn) {
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+</script>
 </body>
 </html>
